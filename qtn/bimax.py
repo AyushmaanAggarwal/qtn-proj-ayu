@@ -211,7 +211,23 @@ class BiMax(object):
         integrand = lambda y: y * fperp(y * lrel) / (y ** 2 + 1 + omega ** 2) / (y ** 2 + 1 + omega ** 2 + tep)
         integral = scint.quad(integrand, 0, np.inf, epsrel=1.e-4)
         return mp.sqrt(2 * emass * boltzmann * tg) / (4 * mp.pi * permittivity * M) * integral[0]
-
+    
+    def proton2(self, wc, l, tep, tc, vsw):
+        """
+        proton noise.
+        wc: w/w_c, where w_c is the core electron plasma frequency.
+        l: l_ant/l_dc, where l_ant is antenna length
+        l_dc: core electron debye length.
+        tep: T_e/T_p
+        tc: core electron temperature
+        vsw: solar wind speed.
+        """
+        vtc = np.sqrt(2 * boltzmann * tc/ emass)
+        omega = wc * vtc/vsw /np.sqrt(2.)
+        integrand = lambda y: y * fperp(y * l)/ (y**2 + 1 + omega**2) / (y**2 + 1 + omega**2 + tep)
+        integral = scint.quad(integrand, 0, np.inf, epsrel = 1.e-8) 
+        return integral[0] * boltzmann * tc/ (2 * np.pi * permittivity * vsw)
+    
     def electron_noise(self, f, ne, n, t, tp, tc, vsw):
         """
         a wrapper for bimax method.

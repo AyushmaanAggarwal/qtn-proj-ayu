@@ -5,3 +5,4 @@ notebook/.gitignore~
 qtn/__init__.pyc
 qtn/__pycache__/
 survey/.DS_Store
+data

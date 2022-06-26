@@ -1,3 +1,4 @@
+from functions import Timer
 import mpmath as mp
 import numpy as np
 import scipy.integrate as scint
@@ -18,7 +19,8 @@ from .util import (boltzmann, emass, echarge, permittivity, cspeed)
 #         https://agupubs.onlinelibrary.wiley.com/doi/pdf/10.1029/1998JA900165
 
 class BiMax(object):
-    def __init__(self, ant_len, ant_rad, base_cap):
+    def __init__(self, ant_len, ant_rad, base_cap, reduce_pres=False):
+        self.reduce_pres = reduce_pres
         self.ant_len = ant_len
         self.ant_rad = ant_rad
         self.al_ratio = ant_rad / ant_len
@@ -26,6 +28,7 @@ class BiMax(object):
         # Unit conversion constants to deliver end results in SI units
         self.z_unit = 8.313797e6
         self.v_unit = 1.62760e-15
+        self.T = Timer.Timer()
 
     @staticmethod
     def d_l(z, wc, n, t):
@@ -168,8 +171,13 @@ class BiMax(object):
             mp.mp.dps = 80
         else:
             mp.mp.dps = 40
+        if self.reduce_pres:
+            mp.mp.dps /= 20
         wc = wrel * mp.sqrt(1 + n)
+        
+        # THE LINE BELOW TAKES NEARLY A SECOND TO RUN
         za = self.za_l(wc, l, n, t, tc)
+
         mp.mp.dps = 15
         zr = self.zr_mp(wc, l, tc)
 
@@ -225,7 +233,8 @@ class BiMax(object):
         vtc = np.sqrt(2 * boltzmann * tc/ emass)
         omega = wc * vtc/vsw /np.sqrt(2.)
         integrand = lambda y: y * fperp(y * l)/ (y**2 + 1 + omega**2) / (y**2 + 1 + omega**2 + tep)
-        integral = scint.quad(integrand, 0, np.inf, epsrel = 1.e-8) 
+        pres = 1.e-8 if not self.reduce_pres else 1.e-4
+        integral = scint.quad(integrand, 0, np.inf, epsrel = pres) 
         return integral[0] * boltzmann * tc/ (2 * np.pi * permittivity * vsw)
     
     def electron_noise(self, f, ne, n, t, tp, tc, vsw):

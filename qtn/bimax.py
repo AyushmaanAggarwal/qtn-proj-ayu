@@ -15,7 +15,7 @@ from .util import (boltzmann, emass, echarge, permittivity, cspeed)
 #
 # The implementation uses expressions from the classical paper by N. Meyer-Vernet et al. (1989)
 #         https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/JA094iA03p02405
-# The proton noise calculation follows Issautier et al. (1999)
+# The proton noise calculation follows x
 #         https://agupubs.onlinelibrary.wiley.com/doi/pdf/10.1029/1998JA900165
 
 class BiMax(object):

@@ -27,6 +27,10 @@ class Timer():
             string += f"{name}: {elapsed_time}\n"
         return string
     
-    
+    def last_lap(self):
+        name = self.time_lst[-1][0]
+        elapsed_time = np.round(self.time_lst[-1][1] - self.time_lst[-2][1],10)
+        return f"{name}: {elapsed_time}\n"
+        
     def __str__(self):
         return str(self.time_lst)

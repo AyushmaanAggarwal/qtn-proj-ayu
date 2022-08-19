@@ -172,7 +172,7 @@ class BiMax(object):
         else:
             mp.mp.dps = 40
         if self.reduce_pres:
-            mp.mp.dps /= 20
+            mp.mp.dps /= 2
         wc = wrel * mp.sqrt(1 + n)
         
         # THE LINE BELOW TAKES NEARLY A SECOND TO RUN

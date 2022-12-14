@@ -4,6 +4,9 @@ __init__.pyc
 notebook/.gitignore~
 qtn/__init__.pyc
 qtn/__pycache__/
+ml_models/
 survey/.DS_Store
 data
+mag_cloud_script.py
 wind_data
+wind-theretical-data-analysis.ipynb

@@ -1,12 +1,16 @@
 .ipynb_checkpoints/
 .idea/
+.vscode/
 __init__.pyc
 notebook/.gitignore~
 qtn/__init__.pyc
-qtn/__pycache__/
+*/__pycache__
+*/.ipynb_checkpoints
 ml_models/
 survey/.DS_Store
 data
 mag_cloud_script.py
 wind_data
 wind-theretical-data-analysis.ipynb
+cnn_data_conversion/convert_trn_binary.ipynb
+cnn_data_conversion/convert_trn_binary.py
